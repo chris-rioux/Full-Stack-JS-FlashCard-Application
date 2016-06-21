@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Korean Hangul</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+    body {
+        padding-top: 70px;
+        /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+    }
+    </style>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <!-- Font Awesome -->
+    <script src="https://use.fontawesome.com/dc123c79b0.js"></script>
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Korean Hangul</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="https://www.linkedin.com/in/chrisrioux" target="_blank">About</a>
+                    </li>
+                    <li>
+                        <a href="http://www.chrisriouxapplications.com/" target="_blank">Contact</a>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->  
+    <!-- On Page Load -->   
+    <div class="container">
+        <div class="row">
+            <div id="letters" class="col-lg-12 text-center" style="margin-top:25px;">
+                <h1>당 신 은 게 임 을 하 ㅅ ㅣ 겠 습 ㄴ ㅣ ㄲ ㅏ</h1>
+                <h1>Would You Like to Play a Game?</h1>
+                </br>
+       
+                <div class="btn-group">
+                	<button type="button" id="yup" class="btn btn-default btn-lg center-block">Yup.</button>
+                </div>
+            </div>
+        </div><!-- /.row -->
+            
+        <div class="row">
+    		<div id="inputs" class="col-sm-6 col-sm-offset-3" style="margin-top:25px;">
+            </div>
+        </div><!-- /.row -->
+    	
+    </div><!-- /.container -->
+    
+    <hr>
+    
+    <!-- Footer -->
+    <footer id="footer" class="container-fluid">
+    	<div class="row">
+			<div class="col-lg-12">
+				<p class="text-center"><a href="http://www.chrisriouxapplications.com/" target="_blank" style="color:#9D9D9D;">Chris Rioux Applications</a> &copy; 2016</p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3" style="text-align:center">
+				<a href="https://twitter.com/chrisrioux_" target="_blank" style="color:#9D9D9D;"><i class="fa fa-twitter fa-2x"></i></a>&nbsp;&nbsp;
+				<a href="https://www.linkedin.com/in/chrisrioux" target="_blank" style="color:#9D9D9D;"><i class="fa fa-linkedin fa-2x"></i></a>&nbsp;&nbsp;
+				<a href="https://github.com/chris-rioux" target="_blank" style="color:#9D9D9D;"><i class="fa fa-github fa-2x"></i></a>
+    	  	</div>
+		</div>
+	</footer>
+	
+	<!-- Modal -->
+	<div id="responseModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  		<div class="modal-dialog modal-sm">
+    		<div class="modal-content">
+    			<div class="modal-body">
+      				<h4 id="results" class=text-center></h4>
+                	<button type="button" id="ok" class="btn btn-default center-block">Ok.</button>
+    			</div>
+    		</div>
+  		</div>
+	</div>
+
+    <!-- jQuery Version 1.11.1 -->
+    <script src="/js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="/js/bootstrap.min.js"></script>
+    
+    <!-- Ajax Calls and Such -->
+    <!-- <script src="/js/flashcard.js"></script> -->
+    
+    <script type="text/javascript">
+    
+    
+    // load homepage with first question as a random letter from db
+   	$(document).ready(function() {
+   	
+   		// name this function??? to pass as part of my post route??
+   		$('#yup').click(function() {
+   			loadQuiz();
+   		});
+   		
+   	});
+   	
+   	function loadQuiz() {
+   		$('#letters').empty();
+   		$('#inputs').empty();
+   		
+   		var idGenerator = Math.floor((Math.random() * 20) + 1);
+   		
+   		$.ajax({
+   			type: 'GET',
+   			url : '/api/letter/' + idGenerator,
+   			dataType: 'JSON',
+   			success : showLetter
+   		}).fail(function() {
+   			console.log('Failed!');
+   		});
+   	};
+   	
+   	// build div with letter image
+   	function showLetter(data) {
+   		$('#letters').empty();
+   		$('#inputs').empty();
+   		
+   		var $row = $('<div>');
+   			$row.prop('id', 'rowId');
+   			$row.addClass('row');
+   			
+   		var $col = $('<div>');
+   			$col.prop('id', 'colId');
+   			$col.addClass('col-lg-12 text-center');
+   			
+   		var $image = $('<img>');
+   			$image.attr('src', '/img/' + data.details.image);
+   			
+   		$($col).append($image);
+   		$($row).append($col);
+   		$('#letters').append($row);
+   		
+   		// build form for answer inputs
+   		var $hidden = $('<input>');
+   			$hidden.prop('type', 'hidden');
+   			$hidden.prop('name', '_id');
+   			$hidden.prop('value', data._id);
+
+   		
+   		var $phonetics = $('<input>');
+   			$phonetics.addClass('form-control');
+   			$phonetics.prop('type', 'text');
+   			$phonetics.prop('name', 'phonetics');
+   			$phonetics.prop('placeholder', 'Enter phonetics...');
+   			
+   		var $name = $('<input>');
+   			$name.addClass('form-control');
+   			$name.prop('type', 'text');
+   			$name.prop('name', 'name');
+   			$name.prop('placeholder', 'Enter name...');
+   			
+   		var $type = $('<input>');
+   			$type.addClass('form-control');
+   			$type.prop('type', 'text');
+   			$type.prop('name', 'type');
+   			$type.prop('placeholder', 'Enter type...');
+   			
+   		var $answer = $('<button>');
+    		$answer.prop('id', 'answer');
+    		$answer.prop('type', 'submit');
+    		$answer.addClass('btn btn-default center-block');
+    		$answer.text('Answer');
+    		$answer.click(answerSubmit);
+
+   		var $br = $('<br>');
+   		var $br2 = $('<br>');
+   		var $br3 = $('<br>');
+   			
+   		var $form = $('<form>');
+   			$form.prop('id', 'answers');
+   		
+   		$($form).append($hidden);
+   		$($form).append($phonetics);
+   		$($form).append($br);
+   		$($form).append($name);
+   		$($form).append($br2);
+   		$($form).append($type);
+   		$($form).append($br3);
+   		$($form).append($answer);
+
+   		$('#inputs').append($form);
+   		
+   	}
+   	
+   	function answerSubmit(e){
+   		e.preventDefault();
+   		
+   		// capture the form values as an object
+   		var letter = {};
+   	
+   		var $formValues = $('#answers').serializeArray();
+   			
+   		$.each($formValues, function() {
+   			letter[this.name] = this.value;
+   		});
+   	
+   		$.ajax({
+   			type: 'POST',
+   			url : '/api/letter/',
+   			dataType: 'JSON',
+   			data: letter,
+   			success : answerCheck
+   		}).fail(function() {
+   			console.log('Failed!');
+   		});
+   	}
+   	
+   	function answerCheck(data){
+   		if(data.correct === true) {
+   			$('#responseModal').modal();
+   			$('#results').text('Awesome-Sauce! Keep going!');
+   			
+   			$('#ok').click(function() {
+   				$('#responseModal').modal('hide');
+   				loadQuiz();
+   			});
+   		}
+   		else {
+   			$('#responseModal').modal();
+   			$('#results').text('Not so much! But keep going!');
+   			
+   			$('#ok').click(function() {
+   				$('#responseModal').modal('hide');
+   				loadQuiz();
+   			});
+   		}
+   	}
+    </script>
+
+</body>
+
+</html>
