@@ -3,6 +3,7 @@ var app = express();
 var bp = require('body-parser');
 var ejs = require('ejs');
 var path = require('path');
+var port = process.env.PORT || 3000;
 
 app.use(bp.json());
 app.use(bp.urlencoded({extended:true}));
@@ -22,6 +23,6 @@ var Letter = mongoose.model('Letter');
 app.use('/', require('./app_server/routes/index.js'));
 app.use('/api', require('./app_api/routes/index.js'));
 
-app.listen(3000, function() {
-	console.log("Application started on http://localhost:" + 3000 + "; press ctrl-c to terminate.");
+app.listen(port, function() {
+	console.log("Application listening on:" + port + "; press ctrl-c to terminate.");
 });
