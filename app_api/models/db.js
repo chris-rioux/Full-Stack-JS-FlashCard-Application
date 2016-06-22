@@ -3,6 +3,7 @@ var gracefulShutdown;
 // Development Connection URI
 var dbURI = 'mongodb://localhost/alphabet';
 if (process.env.NODE_ENV === 'production') {
+	console.log('Am I in production? Maybe');
 // Reference Heroku Config Variable
   dbURI = process.env.MONGODB_URI;
 }
