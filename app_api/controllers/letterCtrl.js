@@ -5,7 +5,7 @@ var prefix = 'http://localhost:3000';
 
 if (process.env.NODE_ENV === 'production') {
 // Reference Heroku Config Variable
-  prefix = process.env.MONGODB_URI;
+  prefix = 'https://rocky-earth-50963.herokuapp.com/';
 }
 
 module.exports.index = function(req, res) {
