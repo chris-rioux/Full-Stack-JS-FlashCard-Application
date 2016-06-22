@@ -3,7 +3,7 @@ var request = require('request');
 var Letter = mongoose.model('Letter');
 var prefix = 'http://localhost:3000';
 
-if (NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production') {
 // Reference Heroku Config Variable
   prefix = process.env.MONGODB_URI;
 }
