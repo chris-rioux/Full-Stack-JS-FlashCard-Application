@@ -1,4 +1,4 @@
-Week 17 Skill Distillery project leveraging the stack below to develop a Full Stack JavaScript application.
+Week 17 Skill Distillery project leveraging the stack below to develop a JavaScript learning application.
 
   - HTML
   - CSS
@@ -8,4 +8,4 @@ Week 17 Skill Distillery project leveraging the stack below to develop a Full St
   - EJS
   - NodeJS
   - ExpressJS
-  - Mongoose (MongoDB)
+  - MongooseJS
